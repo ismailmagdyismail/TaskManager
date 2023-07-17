@@ -69,4 +69,21 @@ module.exports.getTaskByID = async function(req,res){
             "message": err.message
         });
     }
+};
+
+module.exports.updateTask = async function(req,res){
+    try {
+        const task = await Task.findByIdAndUpdate(req.params.id,req.body);
+        res.status(200).json({
+            "status":"success",
+            "data":{
+                "task":task
+            }
+        })
+    }catch (err){
+        res.status(400).json({
+            "status":"fail",
+            "message": err.message
+        });
+    }
 }

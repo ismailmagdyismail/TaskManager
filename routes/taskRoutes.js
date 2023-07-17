@@ -8,7 +8,7 @@ route.route('/')
 
 route.route('/:id')
     .get(controller.getTaskByID)
-    //.patch()
+    .patch(controller.updateTask)
     .delete(controller.deleteTask);
 
 
