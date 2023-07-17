@@ -7,9 +7,11 @@ const formAlertDOM = document.querySelector('.form-alert')
 const showTasks = async () => {
   loadingDOM.style.visibility = 'visible'
   try {
-    const {
-      data: { tasks },
-    } = await axios.get('/api/v1/tasks')
+    const response =  await fetch('/api/v1/tasks');
+    const data = await response.json();
+    console.log(data);
+    const tasks = data.data.tasks;
+    console.log(tasks);
     if (tasks.length < 1) {
       tasksDOM.innerHTML = '<h5 class="empty-list">No tasks in your list</h5>'
       loadingDOM.style.visibility = 'hidden'
@@ -39,12 +41,14 @@ const showTasks = async () => {
     tasksDOM.innerHTML = allTasks
   } catch (error) {
     tasksDOM.innerHTML =
-      '<h5 class="empty-list">There was an error, please try later....</h5>'
+      `<h5 class="empty-list">${error}</h5>`
   }
   loadingDOM.style.visibility = 'hidden'
 }
 
-showTasks()
+showTasks().catch(err=>{
+  console.log(err.message);
+});
 
 // delete task /api/tasks/:id
 
@@ -54,8 +58,10 @@ tasksDOM.addEventListener('click', async (e) => {
     loadingDOM.style.visibility = 'visible'
     const id = el.parentElement.dataset.id
     try {
-      await axios.delete(`/api/v1/tasks/${id}`)
-      showTasks()
+      await fetch(`/api/v1/tasks/${id}`, {
+        method: 'DELETE'
+      });
+      await showTasks();
     } catch (error) {
       console.log(error)
     }
@@ -70,8 +76,14 @@ formDOM.addEventListener('submit', async (e) => {
   const name = taskInputDOM.value
 
   try {
-    await axios.post('/api/v1/tasks', { name })
-    showTasks()
+    await fetch('/api/v1/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name })
+    });
+    await showTasks();
     taskInputDOM.value = ''
     formAlertDOM.style.display = 'block'
     formAlertDOM.textContent = `success, task added`
