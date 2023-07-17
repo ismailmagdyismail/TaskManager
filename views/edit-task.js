@@ -7,7 +7,6 @@ const formAlertDOM = document.querySelector('.form-alert')
 const params = window.location.search
 const id = new URLSearchParams(params).get('id')
 let tempName
-
 const showTask = async () => {
   try {
     const response = await fetch(`/api/v1/tasks/${id}`);
