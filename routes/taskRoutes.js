@@ -6,8 +6,8 @@ route.route('/')
     .get(controller.getTasks)
     .post(controller.createTask);
 
-//route.route('/:id')
-    //.get()
+route.route('/:id')
+    .get(controller.getTaskByID)
     //.patch()
     //.delete()
 
