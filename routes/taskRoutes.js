@@ -9,7 +9,7 @@ route.route('/')
 route.route('/:id')
     .get(controller.getTaskByID)
     //.patch()
-    //.delete()
+    .delete(controller.deleteTask);
 
 
 module.exports = route;
