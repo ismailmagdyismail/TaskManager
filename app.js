@@ -8,6 +8,7 @@ env.config({path:'./config.env'});
 
 const PORT = process.env.PORT;
 
+app.use(express.static('./views'));
 app.use(express.json());
 app.use('/api/v1/tasks',taskRouter);
 
