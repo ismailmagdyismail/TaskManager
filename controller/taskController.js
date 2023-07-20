@@ -1,105 +1,71 @@
 const Task = require('../models/taskModel');
+const asyncWrapper = require('../errorHandlers/asyncWrapper');
 
-module.exports.getTasks = async function getTasks(req,res){
-    try {
-        const tasks = await Task.find({})
-        res.status(200).json({
-            "status":"success",
-            "data":{
-                "tasks":tasks
-            }
-        });
-    }catch (err){
-        res.status(500).json({
-            "status":"fail",
-            "message": err.message
-        });
-    }
-};
-
-module.exports.createTask = async function(req,res){
-    try {
-        const task = await Task.create(req.body);
-        res.status(201).json({
-            "status":"success",
-            "data":{
-                "tasks":task
-            }
-        });
-    }catch (err){
-        res.status(500).json({
-            "status":"fail",
-            "message": err.message
-        });
-    }
-};
-
-module.exports.deleteTask = async function(req,res){
-    try {
-        if(!req.params.id){
-            res.status(400).json({
-                "status":"fail",
-                "message": "didn't specify ID"
-            });
+module.exports.getTasks = asyncWrapper(async function getTasks(req,res){
+    const tasks = await Task.find({})
+    res.status(200).json({
+        "status":"success",
+        "data":{
+            "tasks":tasks
         }
-        await Task.findByIdAndDelete(req.params.id);
-        res.status(204).json({
-            "status":"success",
-            "data":null
-        });
-    }catch (err){
-        res.status(500).json({
-            "status":"fail",
-            "message": err.message
-        });
-    }
-};
+    });
+});
 
-module.exports.getTaskByID = async function(req,res){
-    try {
-        if(!req.params.id){
-            res.status(400).json({
-                "status":"fail",
-                "message": "didn't specify ID"
-            });
+module.exports.createTask = asyncWrapper(async function(req,res){
+    const task = await Task.create(req.body);
+    res.status(201).json({
+        "status":"success",
+        "data":{
+            "tasks":task
         }
-        const task = await Task.find({_id:req.params.id});
-        res.status(200).json({
-            "status":"success",
-            "data":{
-                "task":task
-            }
-        });
-    }catch (err){
-        res.status(500).json({
-            "status":"fail",
-            "message": err.message
-        });
-    }
-};
+    });
+});
 
-module.exports.updateTask = async function(req,res){
-    try {
-        if(!req.params.id){
-            res.status(400).json({
-                "status":"fail",
-                "message": "didn't specify ID"
-            });
-        }
-        const task = await Task.findByIdAndUpdate(req.params.id,req.body,{
-            new:true,
-            runValidators:true,
-        });
-        res.status(200).json({
-            "status":"success",
-            "data":{
-                "task":task
-            }
-        })
-    }catch (err){
-        res.status(500).json({
+module.exports.deleteTask = asyncWrapper(async function(req,res){
+    if(!req.params.id){
+        res.status(400).json({
             "status":"fail",
-            "message": err.message
+            "message": "didn't specify ID"
         });
     }
-}
+    await Task.findByIdAndDelete(req.params.id);
+    res.status(204).json({
+        "status":"success",
+        "data":null
+    });
+});
+
+module.exports.getTaskByID = asyncWrapper(async function(req,res){
+    if(!req.params.id){
+        res.status(400).json({
+            "status":"fail",
+            "message": "didn't specify ID"
+        });
+    }
+    const task = await Task.find({_id:req.params.id});
+    res.status(200).json({
+        "status":"success",
+        "data":{
+            "task":task
+        }
+    });
+});
+
+module.exports.updateTask = asyncWrapper(async function(req,res){
+    if(!req.params.id){
+        res.status(400).json({
+            "status":"fail",
+            "message": "didn't specify ID"
+        });
+    }
+    const task = await Task.findByIdAndUpdate(req.params.id,req.body,{
+        new:true,
+        runValidators:true,
+    });
+    res.status(200).json({
+        "status":"success",
+        "data":{
+            "task":task
+        }
+    });
+});
