@@ -1,8 +1,12 @@
 const express = require('express');
 const app = express();
+
 const taskRouter = require('./routes/taskRoutes');
 const connectDB = require('./DB/mongooseDB');
 const logging = require('morgan');
+
+const globalErrorHandlerMiddleware = require('./errorHandlers/globalErrorHandlerMiddleware');
+const AppError = require('./errorHandlers/AppError');
 
 const env = require('dotenv');
 env.config({path:'./config.env'});
@@ -14,8 +18,9 @@ app.use(express.json());
 app.use(logging('dev'));
 app.use('/api/v1/tasks',taskRouter);
 app.use((req,res,next)=>{
-    res.status(404).send("Route not found")
-})
+    next(new AppError(404,"Route not found"));
+});
+app.use(globalErrorHandlerMiddleware);
 async function main(){
     try {
         await connectDB();

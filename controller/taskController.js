@@ -1,7 +1,8 @@
 const Task = require('../models/taskModel');
 const asyncWrapper = require('../errorHandlers/asyncWrapper');
+const AppError = require('../errorHandlers/AppError');
 
-module.exports.getTasks = asyncWrapper(async function getTasks(req,res){
+module.exports.getTasks = asyncWrapper(async function getTasks(req,res,next){
     const tasks = await Task.find({})
     res.status(200).json({
         "status":"success",
@@ -11,7 +12,7 @@ module.exports.getTasks = asyncWrapper(async function getTasks(req,res){
     });
 });
 
-module.exports.createTask = asyncWrapper(async function(req,res){
+module.exports.createTask = asyncWrapper(async function(req,res,next){
     const task = await Task.create(req.body);
     res.status(201).json({
         "status":"success",
@@ -21,12 +22,9 @@ module.exports.createTask = asyncWrapper(async function(req,res){
     });
 });
 
-module.exports.deleteTask = asyncWrapper(async function(req,res){
+module.exports.deleteTask = asyncWrapper(async function(req,res,next){
     if(!req.params.id){
-        res.status(400).json({
-            "status":"fail",
-            "message": "didn't specify ID"
-        });
+        return next(400,"didn't specify ID");
     }
     await Task.findByIdAndDelete(req.params.id);
     res.status(204).json({
@@ -35,19 +33,13 @@ module.exports.deleteTask = asyncWrapper(async function(req,res){
     });
 });
 
-module.exports.getTaskByID = asyncWrapper(async function(req,res){
+module.exports.getTaskByID = asyncWrapper(async function(req,res,next){
     if(!req.params.id){
-        res.status(400).json({
-            "status":"fail",
-            "message": "didn't specify ID"
-        });
+        return next(400,"didn't specify ID");
     }
     const task = await Task.find({_id:req.params.id});
     if(!task){
-        return res.status(404).json({
-            "status":"fail",
-            "message": "Not found Task"
-        });
+        return next(new AppError(404,"Not found task"));
     }
     res.status(200).json({
         "status":"success",
@@ -57,12 +49,9 @@ module.exports.getTaskByID = asyncWrapper(async function(req,res){
     });
 });
 
-module.exports.updateTask = asyncWrapper(async function(req,res){
+module.exports.updateTask = asyncWrapper(async function(req,res,next){
     if(!req.params.id){
-        res.status(400).json({
-            "status":"fail",
-            "message": "didn't specify ID"
-        });
+        return next(400,"didn't specify ID");
     }
     const task = await Task.findByIdAndUpdate(req.params.id,req.body,{
         new:true,
