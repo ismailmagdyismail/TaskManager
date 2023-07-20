@@ -43,6 +43,12 @@ module.exports.getTaskByID = asyncWrapper(async function(req,res){
         });
     }
     const task = await Task.find({_id:req.params.id});
+    if(!task){
+        return res.status(404).json({
+            "status":"fail",
+            "message": "Not found Task"
+        });
+    }
     res.status(200).json({
         "status":"success",
         "data":{
