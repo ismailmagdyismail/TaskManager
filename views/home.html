@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <section class="task-container ">
+      <h2 class="tasks-container-header">Task List</h2>
+      <button class="create-task">New  Task</button>
+    </section>
+
+
+    <main class="task-content ">
+      <h2 class="task-header">Task1 Content</h2>
+      <button class="create-subTask">New Sub-Task</button>
+      <div class="description">
+        <h3>Current Task Description</h3>
+        <p>this is a backend task required to enhance my backend skills</p>
+      </div>
+
+      <div class="subtask-container">
+        <div class="task sub-task selected">
+          <p >Sub1</p>
+          <menu >
+            <button class="edit-task">Edit</button>
+            <button class="mark-task">Mark Done</button>
+            <button class="trash-task">Trash</button>
+          </menu>
+        </div>
+      </div>
+    </main>
+
+
+    <aside class="additional-info ">
+      <h2>Additional Info</h2>
+    </aside>
+
+    <div class="modal-container hidden">
+      <div class="main-task-modal hidden">
+        <form class="create-main-task-form">
+          <h2>Create new Task</h2>
+          <div class="task-name">
+            <label for="taskName">Task Name</label>
+            <input id="taskName" type="text" required placeholder="task Name">
+          </div>
+
+          <div class="task-description">
+            <label for="taskDescription">Task Description</label>
+            <input id="taskDescription" type="text"  placeholder="task Description">
+          </div>
+
+          <div class="form-btns">
+            <button class="submit">Submit</button>
+            <button class="close-modal">Close</button>
+          </div>
+        </form>
+      </div>
+      <div class="edit-main-task-modal hidden">
+        <form class="edit-main-task-form">
+          <h2>Edit Task</h2>
+          <div class="task-name">
+            <label for="taskEditName">Task Name</label>
+            <input id="taskEditName" type="text" required placeholder="task Name">
+          </div>
+
+          <div class="task-description">
+            <label for="taskEditDescription">Task Description</label>
+            <input id="taskEditDescription" type="text"  placeholder="task Description">
+          </div>
+
+          <div class="form-btns">
+            <button class="submit">Submit</button>
+            <button class="close-modal">Close</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="sub-task-modal hidden">
+        <form class="sub-task-form">
+          <h2>Create new Sub-Task</h2>
+          <div class="task-name">
+            <label for="subTaskName">Task Name</label>
+            <input id="subTaskName" type="text" required placeholder="task Name">
+          </div>
+          <div class="form-btns">
+            <button class="submit" >Submit</button>
+            <button class="close-modal">Close</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="edit-sub-task-modal hidden">
+        <form class="edit-sub-task-form">
+          <h2>Edit Sub-Task</h2>
+          <div class="task-name">
+            <label for="taskEditName">Task Name</label>
+            <input id="subTaskEditName" type="text" required placeholder="task Name">
+          </div>
+          <div class="form-btns">
+            <button class="submit">Submit</button>
+            <button class="close-modal">Close</button>
+          </div>
+        </form>
+      </div>
+  </div>
+  </div>
+  <script>
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  </script>
+<script src="index.js"></script>
+</body>
+</html>

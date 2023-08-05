@@ -8,7 +8,7 @@ A Web application that allows you to track your daily tasks
 - [Start project](#start-project)
 - [Technologies and Services used](#technologies-and-services-used)
 ## Project overview
-- Task manager is an app that allows you to track your tasks
+- Task manager is an appv1 that allows you to track your tasks
 - User can add a new task to the task list
 - User can view all the task he added to the task list
 - User can mark tasks as completed 

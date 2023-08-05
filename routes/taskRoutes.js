@@ -1,15 +1,20 @@
 const express = require('express');
-const route = express.Router();
-const controller = require('../controller/taskController');
+const router = express.Router();
+const taskController = require('../controller/taskController');
 
-route.route('/')
-    .get(controller.getTasks)
-    .post(controller.createTask);
+router.route('/:id/subtasks/:subId')
+    .delete(taskController.deleteSubTask)
+    .patch(taskController.updateSubTask)
 
-route.route('/:id')
-    .get(controller.getTaskByID)
-    .patch(controller.updateTask)
-    .delete(controller.deleteTask);
+router.route('/:id')
+    .patch(taskController.updateTask)
+    .delete(taskController.deleteTask)
+    .post(taskController.createSubTask)
+    .get(taskController.getTaskById);
 
 
-module.exports = route;
+router.route('/')
+    .get(taskController.getAllTasks)
+    .post(taskController.createTask)
+
+module.exports = router;

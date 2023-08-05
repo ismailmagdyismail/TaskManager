@@ -1,21 +1,32 @@
-const mongoose = require('mongoose');
-
+const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:[true,"Cannot make a task without a name"],
-        min:[1,"A task must contain at least one character"],
-        unique:[true,"Each task must have a unique name"],
-        trim:true
+        required:[true,"A task must have a name"],
+        unique:true,
     },
+    description:{
+        type:String,
+    },
+    subTasks:[{
+        completed:{
+            type:Boolean,
+            default:false,
+        },
+        name:{
+            type:String,
+            required:true,
+            unique:true,
+        },
+    }],
     completed:{
         type:Boolean,
         default:false,
-    }
+    },
 });
 
 
-const TaskModel = mongoose.model('Task',taskSchema);
+const Task = new mongoose.model('Task',taskSchema);
 
-module.exports = TaskModel;
+module.exports = Task;
